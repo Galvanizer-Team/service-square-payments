@@ -4,6 +4,7 @@ import { Subscription } from "../database/Subscription"
 import { UserCard } from "../database/UserCard"
 import { Transaction } from "../database/Transaction"
 import toggleSubscription from "../utils/toggleSubscription"
+import sendEmail from "@/utils/sendEmail"
 
 const router = express.Router()
 
@@ -130,7 +131,7 @@ router.post("/cancel/:subscription_id", authMiddleware(null, { allowSelf: true }
 
         // send email to annette
         await sendEmail({
-          to: email,
+          to: "annette@remrktco.com",
           subject: "Subscription Set to Cancel",
           text: ``,
           template: "subscriptionCancelled.html",
