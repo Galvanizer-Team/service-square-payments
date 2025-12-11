@@ -36,7 +36,7 @@ export const getSubscriptionFromDB = async (
  *
  * @param {string} apiKey - The API key used for authentication.
  */
-export const getClientsCount = async (apiKey: string): Promise<{ data: { count: number } }> => {
+export const getClientsCount = async (apiKey: string): Promise<{ count: number }> => {
   const clientsCount = await axios.get(`${process.env.HOMEUPTICK_URL}/api/clients/count`, {
     headers: {
       "x-api-token": apiKey,

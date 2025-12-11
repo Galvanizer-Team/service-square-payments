@@ -18,25 +18,34 @@ const getHomeUptickSubscription = async (user_id: number): Promise<null | HomeUp
   try {
     const user = await getUserFromDB(user_id)
 
-    if (!user) return null
+    if (!user) {
+      console.error(`User with id ${user_id} not found`)
+      return null
+    }
+
     if (!user.api_token) {
       console.error(`User ${user_id} does not have an API token set`)
       return null
     }
 
     if (!user?.active) {
+      console.error(`User ${user_id} is not active`)
       return null // if user is inactive, we're not gonna charge them
     }
 
     const subscription = await getSubscriptionFromDB(user_id)
     if (!subscription) {
+      console.error(`No HomeUptick subscription found for user ${user_id}`)
       return null
     }
 
     const clientsCount = await getClientsCount(user.api_token)
-    const count = clientsCount?.data?.count || 0
+    const count = clientsCount?.count || 0
+
+    console.log(clientsCount)
 
     if (!count) {
+      console.log(`User ${user_id} has no clients`)
       return null // if they have no clients, we're not gonna charge them
     }
 
